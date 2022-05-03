@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import AdornedButton from './AdornedButton';
 // import { useNavigate } from 'react-router-dom';
-import { createGroup } from '../reducers/groups';
+import { createGroup } from '../reducers/user';
 import { useDispatch, useSelector } from 'react-redux'
 
 const Component = props => {

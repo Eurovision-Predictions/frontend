@@ -18,7 +18,7 @@ const auth = {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Auth0Provider {...auth} redirectUri={window.location.origin}>
+  <Auth0Provider {...auth} redirectUri={window.location.origin + window.location.pathname}>
     <HashRouter>
       <Provider store={store}>
         <App />

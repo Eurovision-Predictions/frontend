@@ -20,13 +20,9 @@ const Component = props => {
     }, 2000);
   }, [dispatch, isSending, key, predictions])
 
-  if (key === undefined) {
-    return (<div></div>);
-  }
-
   return (
-    <AdornedButton onClick={sendRequest} loading={isSending} message="Predictions saved successfully!">
-      Save Predictions
+    <AdornedButton onClick={sendRequest} loading={isSending} message="User added successfully!">
+      Add User
     </AdornedButton>
   )
 }

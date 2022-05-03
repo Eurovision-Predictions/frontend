@@ -20,7 +20,7 @@ const AdornedButton = (props) => {
     <div>
       <Button {...rest}>
         {children}
-        {loading && <SpinnerAdornment size={20} {...rest} />}
+        {loading && <SpinnerAdornment size={20} />}
       </Button>
       <Snackbar open={loading} autoHideDuration={6000}>
         <MuiAlert severity="success">{message}</MuiAlert>

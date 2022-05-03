@@ -13,7 +13,7 @@ export const createUser = body => {
   .then(res => {
     const { predictions } = res;
 
-    if (predictions.length === 0) {
+    if (predictions === undefined || predictions.length === 0) {
       return {
         ...res,
         predictions: countries

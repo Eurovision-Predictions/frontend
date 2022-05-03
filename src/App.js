@@ -14,7 +14,7 @@ const App = () => {
       <AppBar />
       <Container maxWidth="lg">
         <Routes>
-          <Route path="/groups" exact element={<LandingPage />} />
+          <Route path="/" exact element={<LandingPage />} />
           <Route path="/group/:key" element={<GroupPage />} />
           <Route path="/predictions" element={<PredictionsPage />} />
         </Routes>

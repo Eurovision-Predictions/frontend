@@ -15,14 +15,12 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { createUser } from './api/user';
-import { fetchUserGroups } from './reducers/groups';
 import { setUser } from './reducers/user';
 import { useDispatch } from 'react-redux'
 import { styled } from '@mui/material/styles';
 
 const LinkWrapper = styled(Link)(() => ({
   textDecoration: 'none',
-  display: 'block',
   color: 'white',
 }));
 
@@ -36,7 +34,6 @@ export default function PrimarySearchAppBar() {
     const setUserDetails = async () => {
       const rs = await createUser(user)
       dispatch(setUser(rs))
-      dispatch(fetchUserGroups(rs.key))
     }
 
     if(isAuthenticated) {
@@ -76,7 +73,7 @@ export default function PrimarySearchAppBar() {
                 <QueryStatsIcon />
               </IconButton>
             </LinkWrapper>
-            <LinkWrapper to="/groups">
+            <LinkWrapper to="/">
               <IconButton size="large" edge="end" color="inherit">
                 <GroupsIcon />
               </IconButton>
