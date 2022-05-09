@@ -1,7 +1,6 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "homepage": "https://eurovision-predictions.github.io/frontend/",
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^1.10.0",
