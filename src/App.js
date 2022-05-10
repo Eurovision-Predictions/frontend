@@ -14,9 +14,9 @@ const App = () => {
       <AppBar />
       <Container maxWidth="lg">
         <Routes>
-          <Route path="/" exact element={<LandingPage />} />
+          <Route path="/groups" exact element={<LandingPage />} />
           <Route path="/group/:key" element={<GroupPage />} />
-          <Route path="/predictions" element={<PredictionsPage />} />
+          <Route path="/" element={<PredictionsPage />} />
         </Routes>
       </Container>
     </React.Fragment>

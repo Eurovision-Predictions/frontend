@@ -1,23 +1,47 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
-import { ListItem, ListItemAvatar, ListItemText } from '@mui/material';
+import { List, ListItem, ListItemAvatar, ListItemText, ListItemButton } from '@mui/material';
 import ReactCountryFlag from "react-country-flag"
+import ReactPlayer from 'react-player'
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import Collapse from '@mui/material/Collapse';
+
+const Item = props => {
+  const { provided, item, index } = props;
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
+
+  return (
+    <List ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+      <ListItem>
+        <ListItemAvatar>
+          {index + 1}
+        </ListItemAvatar>
+        <ListItemAvatar>
+          <ReactCountryFlag countryCode={item.country_code} svg style={{ width: '2em', height: '2em' }} />
+        </ListItemAvatar>
+        <ListItemButton onClick={handleClick}>
+          <ListItemText primary={item.primary} />
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+      </ListItem>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ReactPlayer url={item.secondary} width='100%' controls={true} />
+        </List>
+      </Collapse>
+    </List>
+  )
+}
 
 const DraggableListItem = ({ item, index }) => {
   return (
     <Draggable draggableId={item.id} index={index}>
-      {(provided, snapshot) => (
-        <ListItem
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-        >
-          <ListItemAvatar>
-            <ReactCountryFlag countryCode={item.country_code} svg style={{ width: '2em', height: '2em' }} />
-          </ListItemAvatar>
-          <ListItemText primary={item.primary} secondary={item.secondary} />
-        </ListItem>
-      )}
+      {(provided, snapshot) => <Item provided={provided} snapshot={snapshot} item={item} index={index} />}
     </Draggable>
   );
 };

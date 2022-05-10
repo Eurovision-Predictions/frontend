@@ -4,12 +4,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import GroupsIcon from '@mui/icons-material/Groups';
 import { Link } from 'react-router-dom';
@@ -18,6 +13,7 @@ import { createUser } from './api/user';
 import { setUser } from './reducers/user';
 import { useDispatch } from 'react-redux'
 import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
 
 const LinkWrapper = styled(Link)(() => ({
   textDecoration: 'none',
@@ -25,8 +21,6 @@ const LinkWrapper = styled(Link)(() => ({
 }));
 
 export default function PrimarySearchAppBar() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const isMenuOpen = Boolean(anchorEl);
   const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
   const dispatch = useDispatch();
 
@@ -36,20 +30,10 @@ export default function PrimarySearchAppBar() {
       dispatch(setUser(rs))
     }
 
-    if(isAuthenticated) {
+    if (isAuthenticated) {
       setUserDetails()
     }
   }, [isAuthenticated, user, dispatch])
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const menuId = 'primary-search-account-menu';
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -63,32 +47,21 @@ export default function PrimarySearchAppBar() {
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: 'flex' }}>
-            <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <LinkWrapper to="/predictions">
+            <LinkWrapper to="/">
               <IconButton size="large" edge="end" color="inherit">
                 <QueryStatsIcon />
               </IconButton>
             </LinkWrapper>
-            <LinkWrapper to="/">
+            {isAuthenticated && <LinkWrapper to="/groups">
               <IconButton size="large" edge="end" color="inherit">
                 <GroupsIcon />
               </IconButton>
-            </LinkWrapper>
-            <IconButton size="large" edge="end" aria-label="account of current user" aria-controls={menuId} aria-haspopup="true" onClick={handleProfileMenuOpen} color="inherit">
-              <AccountCircle />
-            </IconButton>
+            </LinkWrapper>}
+            {!isAuthenticated && <Button color="inherit" onClick={loginWithRedirect}>Login</Button>}
+            {isAuthenticated && <Button color="inherit" onClick={() => logout({ returnTo: window.location.origin })}>Logout</Button>}
           </Box>
         </Toolbar>
       </AppBar>
-      <Menu anchorEl={anchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} id={menuId} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right', }} open={isMenuOpen} onClose={handleMenuClose}>
-        {isAuthenticated && <MenuItem onClick={handleMenuClose}>Profile</MenuItem>}
-        {isAuthenticated && <MenuItem onClick={() => logout({ returnTo: window.location.origin })}>Logout</MenuItem>}
-        {!isAuthenticated && <MenuItem onClick={loginWithRedirect}>Login</MenuItem>}
-      </Menu>
     </Box>
   );
 }
