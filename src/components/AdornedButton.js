@@ -14,6 +14,7 @@ const AdornedButton = (props) => {
     children,
     loading,
     message,
+    show,
     ...rest
   } = props
   return (
@@ -22,7 +23,7 @@ const AdornedButton = (props) => {
         {children}
         {loading && <SpinnerAdornment size={20} />}
       </Button>
-      <Snackbar open={loading} autoHideDuration={6000}>
+      <Snackbar open={loading || show} autoHideDuration={6000}>
         <MuiAlert severity="success">{message}</MuiAlert>
       </Snackbar>
     </div>

@@ -25,7 +25,7 @@ const Component = props => {
   }
 
   return (
-    <AdornedButton onClick={sendRequest} loading={isSending} message="Predictions saved successfully!">
+    <AdornedButton onClick={sendRequest} loading={isSending} message="Predictions saved successfully!" variant="contained" color="info">
       Save Predictions
     </AdornedButton>
   )

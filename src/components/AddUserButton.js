@@ -21,7 +21,7 @@ const Component = props => {
   }, [dispatch, isSending, key, predictions])
 
   return (
-    <AdornedButton onClick={sendRequest} loading={isSending} message="User added successfully!">
+    <AdornedButton onClick={sendRequest} loading={isSending} message="User added successfully!" variant="contained" color="info">
       Add User
     </AdornedButton>
   )

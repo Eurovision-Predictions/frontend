@@ -26,7 +26,7 @@ const Component = props => {
   }
 
   return (
-    <AdornedButton onClick={sendRequest} loading={isSending} message="Joined group!" variant="contained" color="success">
+    <AdornedButton onClick={sendRequest} loading={isSending} message="Joined group!" variant="contained" color="info">
       Join Group
     </AdornedButton>
   )

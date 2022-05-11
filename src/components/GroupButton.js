@@ -22,7 +22,7 @@ const Component = props => {
   }, [dispatch, isSending, key])
 
   return (
-    <AdornedButton onClick={sendRequest} loading={isSending}>
+    <AdornedButton onClick={sendRequest} loading={isSending} variant="contained" color="info">
       Create Group
     </AdornedButton>
   )

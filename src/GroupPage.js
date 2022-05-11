@@ -3,12 +3,16 @@ import { styled } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import JoinGroupButton from './components/JoinGroupButton';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import { Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { useGroup } from './hooks/useGroup';
+import CopyButton from './components/CopyButton';
 
 const Wrapper = styled(Grid)(({ theme }) => ({
   marginTop: theme.spacing(2),
@@ -30,6 +34,20 @@ const MemberCard = props => {
   )
 }
 
+const Group = props => {
+  const { group_key } = props;
+
+  return (
+    <ButtonGroup variant="contained" color="info">
+      <Link to="/">
+        <Button>Predictions</Button>
+      </Link>
+      <CopyButton />
+      <JoinGroupButton group_key={group_key} />
+    </ButtonGroup>
+  )
+}
+
 const GroupCard = props => {
   const { name, group_key, user_info } = props;
 
@@ -40,7 +58,7 @@ const GroupCard = props => {
   return (
     <Wrapper item xs={12}>
       <Card>
-        <CardHeader title={name.join('-')} action={<JoinGroupButton group_key={group_key} />} />
+        <CardHeader title={name.join('-')} action={<Group group_key={group_key} />} />
         <CardContent>
           <TypographyMargin variant="h5" component="h5">Members</TypographyMargin>
           {user_info.length > 0 && <Grid container spacing={2}>
