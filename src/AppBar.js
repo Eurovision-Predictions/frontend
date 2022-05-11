@@ -7,18 +7,25 @@ import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import GroupsIcon from '@mui/icons-material/Groups';
-import { Link } from 'react-router-dom';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import { Link as RouterLink } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { createUser } from './api/user';
 import { setUser } from './reducers/user';
 import { useDispatch } from 'react-redux'
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
 
-const LinkWrapper = styled(Link)(() => ({
+const LinkWrapper = styled(RouterLink)(() => ({
   textDecoration: 'none',
   color: 'white',
 }));
+
+const URL = styled(Link)(() => ({
+  textDecoration: 'none',
+  color: 'white',
+}))
 
 export default function PrimarySearchAppBar() {
   const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
@@ -42,11 +49,23 @@ export default function PrimarySearchAppBar() {
           <IconButton size="large" edge="start" color="inherit" aria-label="open drawer" sx={{ mr: 2 }}>
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{ display: { xs: 'none', sm: 'block' }}}>
-            Eurovision Predictions
-          </Typography>
+          <LinkWrapper to="/">
+            <Typography variant="h6" noWrap component="div" sx={{ display: { xs: 'none', sm: 'block' }}}>
+              Eurovision Predictions
+            </Typography>
+          </LinkWrapper>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: 'flex' }}>
+            <URL href="https://instagram.com/eurovisionpredictions.xyz">
+              <IconButton size="large" edge="end" color="inherit">
+                <InstagramIcon />
+              </IconButton>
+            </URL>
+            <URL href="https://www.tiktok.com/@eurovisionpredictions">
+              <IconButton size="large" edge="end" color="inherit">
+                <span class="material-icons">tiktok</span>
+              </IconButton>
+            </URL>
             <LinkWrapper to="/">
               <IconButton size="large" edge="end" color="inherit">
                 <QueryStatsIcon />
