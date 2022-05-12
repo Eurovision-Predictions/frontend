@@ -18,18 +18,18 @@ const Item = props => {
 
   return (
     <List ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-      <ListItem>
+      <ListItem sx={{ paddingLeft: 0, paddingRight: 0 }}>
         <ListItemIcon>
           <ReorderIcon />
         </ListItemIcon>
-        <ListItemAvatar>
+        <ListItemAvatar sx={{ minWidth: 35 }}>
           {index + 1}
         </ListItemAvatar>
         <ListItemAvatar>
           <ReactCountryFlag countryCode={item.country_code} svg style={{ width: '2em', height: '2em' }} />
         </ListItemAvatar>
-        <ListItemButton onClick={handleClick}>
-          <ListItemText primary={item.primary} />
+        <ListItemButton onClick={handleClick} sx={{ paddingLeft: 0, paddingRight: 0 }}>
+          <ListItemText primary={item.primary}/>
           {open ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
       </ListItem>

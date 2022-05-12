@@ -27,7 +27,7 @@ const Component = props => {
 
   return (
     <AdornedButton onClick={sendRequest} loading={isSending} message="Joined group!" variant="contained" color="info">
-      Join Group
+      Join
     </AdornedButton>
   )
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import GroupButton from './components/GroupButton';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -13,6 +12,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { useAuth0 } from '@auth0/auth0-react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Wrapper from './components/Wrapper';
 
 const theme = createTheme({
   typography: {
@@ -25,11 +25,6 @@ const theme = createTheme({
 
 const LinkWrapper = styled(Link)(() => ({
   textDecoration: 'none',
-}));
-
-const Wrapper = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(2),
-  marginTop: theme.spacing(2),
 }));
 
 const Avatars = props => {
@@ -64,30 +59,28 @@ const App = () => {
   const { isAuthenticated } = useAuth0();
 
   return (
-    <React.Fragment>
-      <Wrapper>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="h3" gutterBottom component="div">
-              My Groups!
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              Do you want to invite more members to your group? You can simply share this page's url by either copying it from the top of your browser or by clicking on the "Share" button below and sending it to your friends! Once they click on the url, they will get redirected to your group and they can select "Join Group" after signing up.
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            {isAuthenticated && <GroupButton />}
-          </Grid>
-          <ThemeProvider theme={theme}>
-          {groups.map(d => (
-            <Grid item xs={6} key={d.key}>
-              <BasicCard {...d} id={d.key} />
-            </Grid>
-          ))}
-          </ThemeProvider>
+    <Wrapper>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant="h3" gutterBottom component="div">
+            My Groups!
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            You can create new groups by clicking on the "Create Group" button. Then, click on the group's name to find more information on how you'll be able to share it with your friends, so that they can join it.
+          </Typography>
         </Grid>
-      </Wrapper>
-    </React.Fragment>
+        <Grid item xs={12}>
+          {isAuthenticated && <GroupButton />}
+        </Grid>
+        <ThemeProvider theme={theme}>
+        {groups.map(d => (
+          <Grid item xs={12} md={6} key={d.key}>
+            <BasicCard {...d} id={d.key} />
+          </Grid>
+        ))}
+        </ThemeProvider>
+      </Grid>
+    </Wrapper>
   );
 }
 

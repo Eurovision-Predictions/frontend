@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import JoinGroupButton from './components/JoinGroupButton';
@@ -7,13 +6,13 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { useGroup } from './hooks/useGroup';
 import CopyButton from './components/CopyButton';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Wrapper from './components/Wrapper';
 
 const theme = createTheme({
   typography: {
@@ -23,10 +22,6 @@ const theme = createTheme({
     ].join(','),
   }
 });
-
-const Wrapper = styled(Grid)(({ theme }) => ({
-  marginTop: theme.spacing(2),
-}));
 
 const MemberCard = props => {
   const { picture, nickname } = props;
@@ -54,44 +49,35 @@ const Group = props => {
   )
 }
 
-const GroupCard = props => {
-  const { name, group_key, user_info } = props;
-
-  if (name === undefined) {
-    return <div></div>
-  }
-
-  return (
-    <Wrapper item xs={12}>
-      <Card>
-        <CardHeader title={
-          <ThemeProvider theme={theme}>
-            <Typography variant="h3">
-              {name.join('-')}
-            </Typography>
-          </ThemeProvider>
-        } action={<Group group_key={group_key} />} />
-        <CardContent>
-          <Typography variant="h5" component="h5" gutterBottom>Members</Typography>
-          {user_info.length > 0 && <Grid container spacing={2}>
-            {user_info.map(d => <MemberCard {...d} />)}
-          </Grid>}
-        </CardContent>
-      </Card>
-    </Wrapper>
-  );
-}
-
 const App = () => {
   const { key } = useParams();
-  const group = useGroup(key)
+  const group = useGroup(key);
+  const { name, group_key, user_info } = group;
 
   return (
-    <React.Fragment>
+    <Wrapper>
       <Grid container spacing={2}>
-        <GroupCard {...group} group_key={group.key} />
+        <Grid item xs={12}>
+          <ThemeProvider theme={theme}>
+            <Typography variant="h3" gutterBottom>
+              {name !== undefined && name.join('-')}
+            </Typography>
+          </ThemeProvider>
+          <Typography variant="body1" gutterBottom>
+            Do you want to invite more members to your group? You can simply share this page's url by either copying it from the top of your browser or by clicking on the "Share" button below and sending it to your friends! Once they click on the url, they will get redirected to your group and they can select "Join" after signing up.
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Group group_key={group_key} />
+        </Grid>
+        <Grid item xs={12}>
+        <Typography variant="h5" component="h5" gutterBottom>Members</Typography>
+          {user_info !== undefined && user_info.length > 0 && <Grid container spacing={2}>
+            {user_info.map(d => <MemberCard {...d} />)}
+          </Grid>}
+        </Grid>
       </Grid>
-    </React.Fragment>
+    </Wrapper>
   );
 }
 
