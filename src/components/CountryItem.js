@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
-import { List, ListItem, ListItemAvatar, ListItemText, ListItemButton } from '@mui/material';
+import { List, ListItem, ListItemAvatar, ListItemText, ListItemButton, ListItemIcon } from '@mui/material';
 import ReactCountryFlag from "react-country-flag"
 import ReactPlayer from 'react-player'
+import ReorderIcon from '@mui/icons-material/Reorder';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
@@ -18,6 +19,9 @@ const Item = props => {
   return (
     <List ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
       <ListItem>
+        <ListItemIcon>
+          <ReorderIcon />
+        </ListItemIcon>
         <ListItemAvatar>
           {index + 1}
         </ListItemAvatar>

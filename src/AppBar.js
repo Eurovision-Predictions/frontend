@@ -63,7 +63,7 @@ export default function PrimarySearchAppBar() {
             </URL>
             <URL href="https://www.tiktok.com/@eurovisionpredictions">
               <IconButton size="large" edge="end" color="inherit">
-                <span class="material-icons">tiktok</span>
+                <span className="material-icons">tiktok</span>
               </IconButton>
             </URL>
             <LinkWrapper to="/">

@@ -13,13 +13,19 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { useGroup } from './hooks/useGroup';
 import CopyButton from './components/CopyButton';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      "Lobster",
+      "cursive",
+    ].join(','),
+  }
+});
 
 const Wrapper = styled(Grid)(({ theme }) => ({
   marginTop: theme.spacing(2),
-}));
-
-const TypographyMargin = styled(Typography)(({ theme }) => ({
-  marginBottom: theme.spacing(2),
 }));
 
 const MemberCard = props => {
@@ -58,9 +64,15 @@ const GroupCard = props => {
   return (
     <Wrapper item xs={12}>
       <Card>
-        <CardHeader title={name.join('-')} action={<Group group_key={group_key} />} />
+        <CardHeader title={
+          <ThemeProvider theme={theme}>
+            <Typography variant="h3">
+              {name.join('-')}
+            </Typography>
+          </ThemeProvider>
+        } action={<Group group_key={group_key} />} />
         <CardContent>
-          <TypographyMargin variant="h5" component="h5">Members</TypographyMargin>
+          <Typography variant="h5" component="h5" gutterBottom>Members</Typography>
           {user_info.length > 0 && <Grid container spacing={2}>
             {user_info.map(d => <MemberCard {...d} />)}
           </Grid>}
