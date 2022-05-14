@@ -41,19 +41,21 @@ const userSlice = createSlice({
     username: "",
     isAuthenticated: false,
     predictions: countries,
+    country_codes: countries.map(d => d.country_code),
     groups: [],
     ready: false,
   },
   reducers: {
     setUser: (state, action) => {
       const { predictions } = action.payload;
+      const { country_codes } = state;
       const ids = predictions.map(d => d.country_code);
       const missing = countries.filter(d => !ids.includes(d.country_code))
 
       return {
         ...state,
         ...action.payload,
-        predictions: [...predictions, ...missing],
+        predictions: [...predictions, ...missing].filter(d => country_codes.includes(d.country_code)),
         ready: true,
       }
     },
