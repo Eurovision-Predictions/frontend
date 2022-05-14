@@ -52,7 +52,7 @@ const Group = props => {
 const App = () => {
   const { key } = useParams();
   const group = useGroup(key);
-  const { name, group_key, user_info } = group;
+  const { name, key: group_key, user_info } = group;
 
   return (
     <Wrapper>
