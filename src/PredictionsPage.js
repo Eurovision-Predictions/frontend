@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
 import CountryList from './components/CountryList';
-import SavePredictions from './components/SavePredictions';
+// import SavePredictions from './components/SavePredictions';
 import { useDispatch, useSelector } from 'react-redux'
 import { updatePredictions } from './reducers/user';
 import LinearProgress from '@mui/material/LinearProgress';
@@ -20,7 +20,23 @@ const reorder = (col, start, end) => {
 const App = () => {
   const dispatch = useDispatch();
   const { isAuthenticated } = useAuth0();
-  const { predictions, ready } = useSelector(state => state.user);
+  const { predictions, results, ready } = useSelector(state => state.user);
+
+  let count = 0;
+  const predictions_codes = predictions.map(d => d.country_code);
+
+  results.map(d => d.country_code).map((d, i) => {
+    const pos = predictions_codes.indexOf(d);
+    const res = i - pos;
+
+    if (res >= 0) {
+      count += res;
+    } else {
+      count += (-1)*res;
+    }
+
+    return count;
+  })
 
   const onDragEnd = ({ destination, source }) => {
     if (!destination) {
@@ -36,7 +52,7 @@ const App = () => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="h3" gutterBottom component="div">
-            My Predictions!
+            My Predictions! - Your total score is {count}
           </Typography>
           <Typography variant="body1" gutterBottom>
             Pick a country by clicking and holding on the selection's drag and drop handle ({<ReorderIcon />}) and move it up or down to change its ranking.
@@ -52,7 +68,7 @@ const App = () => {
           </Typography>}
         </Grid>
         <Grid item xs={12}>
-          <SavePredictions />
+          {/* <SavePredictions /> */}
         </Grid>
         {isAuthenticated && <Grid item xs={12}>
           {ready ? <CountryList items={predictions} onDragEnd={onDragEnd} /> : <LinearProgress /> }

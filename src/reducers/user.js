@@ -44,6 +44,7 @@ const userSlice = createSlice({
     country_codes: countries.map(d => d.country_code),
     groups: [],
     ready: false,
+    results: [],
   },
   reducers: {
     setUser: (state, action) => {
@@ -55,6 +56,7 @@ const userSlice = createSlice({
       return {
         ...state,
         ...action.payload,
+        results: countries,
         predictions: [...predictions, ...missing].filter(d => country_codes.includes(d.country_code)),
         ready: true,
       }
