@@ -13,6 +13,7 @@ import { useGroup } from './hooks/useGroup';
 import CopyButton from './components/CopyButton';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Wrapper from './components/Wrapper';
+import { useSelector } from 'react-redux'
 
 const theme = createTheme({
   typography: {
@@ -23,13 +24,54 @@ const theme = createTheme({
   }
 });
 
+const score = (predictions, results) => {
+  let count = 0;
+
+  results.map((d, i) => {
+    const pos = predictions.indexOf(d);
+    const res = i - pos;
+
+    if (res >= 0) {
+      count += res;
+    } else {
+      count += (-1)*res;
+    }
+
+    return count;
+  });
+
+  return count;
+}
+
+const add_results = (users, results) => col => col.map(d => {
+  const [ predictions ] = users.filter(u => u.key === d.key);
+
+  if (predictions === undefined) {
+    return {
+      ...d,
+      total: 0,
+    }
+  }
+
+  const total = score(predictions.items, results.map(u => u.country_code));
+  return {
+    ...d,
+    total,
+  }
+}).sort((a, b) => a.total - b.total)
+
 const MemberCard = props => {
-  const { picture, nickname } = props;
+  const { picture, nickname, total } = props;
+  let avatar = <Avatar sx={{ backgroundColor: "#92acdf" }}>{total}</Avatar>
+
+  if (total === 0) {
+    avatar = <Avatar sx={{ backgroundColor: "#eea2a2" }}>NA</Avatar>
+  }
 
   return (
-    <Grid item xs={12} md={4}>
+    <Grid item xs={12}>
       <Card>
-        <CardHeader avatar={<Avatar src={picture} />} subheader={nickname} />
+        <CardHeader avatar={<Avatar src={picture} />} subheader={nickname} action={avatar}/>
       </Card>
     </Grid>
   )
@@ -52,7 +94,13 @@ const Group = props => {
 const App = () => {
   const { key } = useParams();
   const group = useGroup(key);
+  const { users, results } = useSelector(state => state.user);
   const { name, key: group_key, user_info } = group;
+  let col = user_info;
+
+  if (user_info !== undefined) {
+    col = add_results(users, results)(user_info);
+  }
 
   return (
     <Wrapper>
@@ -72,8 +120,8 @@ const App = () => {
         </Grid>
         <Grid item xs={12}>
         <Typography variant="h5" component="h5" gutterBottom>Members</Typography>
-          {user_info !== undefined && user_info.length > 0 && <Grid container spacing={2}>
-            {user_info.map(d => <MemberCard {...d} />)}
+          {col !== undefined && user_info.length > 0 && <Grid container spacing={2}>
+            {col.map(d => <MemberCard {...d} />)}
           </Grid>}
         </Grid>
       </Grid>

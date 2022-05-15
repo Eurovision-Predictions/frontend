@@ -45,6 +45,7 @@ const userSlice = createSlice({
     groups: [],
     ready: false,
     results: [],
+    users: [],
   },
   reducers: {
     setUser: (state, action) => {
